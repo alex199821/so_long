@@ -6,10 +6,13 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/12 21:49:30 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/12 22:39:49 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// https://cdn.intra.42.fr/pdf/pdf/135147/en.subject.pdf
+// https://gvituri.itch.io/space-shooter/download/eyJpZCI6OTk4MTA4LCJleHBpcmVzIjoxNzMxNDQ2MTQwfQ%3d%3d.fEuG8GFMtC2%2bqPmZfUNm2T%2bUifk%3d
+// ./so_long maps/map.ber
 #include "so_long.h"
 
 #define WIDTH 512
