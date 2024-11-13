@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+         #
+#    By: macbook <macbook@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:31:36 by auplisas          #+#    #+#              #
-#    Updated: 2024/11/12 21:48:04 by auplisas         ###   ########.fr        #
+#    Updated: 2024/11/13 02:22:21 by macbook          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ OBJS = $(SRCS:.c=.o)
 
 all: MLX42 $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) ./MLX42/build/libmlx42.a $(MLXFLAGS)
+$(NAME): $(OBJS)
+	@cd lib && make --silent
+	$(CC) $(CFLAGS) -o $@ $(OBJS) ./lib/lib.a ./MLX42/build/libmlx42.a $(MLXFLAGS)
 
 MLX42:
 	@if [ ! -d "MLX42" ]; then git clone https://github.com/codam-coding-college/MLX42.git; fi
