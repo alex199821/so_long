@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/13 14:22:05 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/13 22:48:42 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,108 +15,10 @@
 // ./so_long maps/map.ber
 #include "so_long.h"
 #include <stdio.h>
-
-////LINKED LIST MAP////////
-
-// size_t	ft_strlensd(const char *c)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (c[i] != '\0')
-// 	{
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
-t_map	*create_node(char *line)
-{
-	t_map	*new_node;
-	size_t	length;
-	char	*update_line;
-
-	length = ft_strlen(line);
-	update_line = line;
-	if (update_line[length - 1] != '\0')
-	{
-		update_line[length - 1] = '\0';
-	}
-	new_node = (t_map *)malloc(sizeof(t_map));
-	if (!new_node)
-		return (NULL);
-	new_node->row_index = 0;
-	new_node->row = update_line;
-	new_node->next = NULL;
-	new_node->prev = NULL;
-	return (new_node);
-}
-
-void	add_to_end(t_map **head, char *line)
-{
-	t_map	*new_node;
-	t_map	*temp;
-	int		i;
-
-	i = 1;
-	new_node = create_node(line);
-	if (!new_node)
-		return ;
-	if (*head == NULL)
-	{
-		*head = new_node;
-	}
-	else
-	{
-		temp = *head;
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-			i++;
-		}
-		temp->next = new_node;
-		temp->next->row_index = i;
-		new_node->prev = temp;
-	}
-}
-
-int	lstsize(t_map *stack)
-{
-	t_map	*current;
-	int		i;
-
-	current = stack;
-	i = 0;
-	while (current != NULL)
-	{
-		current = current->next;
-		i++;
-	}
-	return (i);
-}
-////LINKED LIST MAP////////
+#include <unistd.h>
 
 #define WIDTH 1024
 #define HEIGHT 512
-
-// static void	error(void)
-// {
-// 	puts(mlx_strerror(mlx_errno));
-// 	exit(EXIT_FAILURE);
-// }
-
-void	print_list(t_map *head)
-{
-	t_map	*temp;
-
-	temp = head;
-	while (temp != NULL)
-	{
-		printf("%s and index is: %d\n", temp->row, temp->row_index);
-		temp = temp->next;
-	}
-	printf("\nNULL\n");
-}
 
 char	*join_str(char *buffer, char *tmp)
 {
@@ -127,56 +29,283 @@ char	*join_str(char *buffer, char *tmp)
 	return (str);
 }
 
-void	initialize_map(void)
+void	print_arofars(char **ar)
+{
+	int	i;
+
+	if (ar)
+	{
+		i = 0;
+		while (ar[i])
+		{
+			printf("Row [%d] = %s\n", i, ar[i]);
+			i++;
+		}
+	}
+}
+
+char	**frees_all(char **parentarray, int arrayindex)
+{
+	int	j;
+
+	j = 0;
+	while (j < arrayindex)
+	{
+		free(parentarray[j]);
+		j++;
+	}
+	free(parentarray);
+	return (NULL);
+}
+
+// char	**initialize_map(void)
+// {
+// 	int		fd;
+// 	char	*line;
+// 	char	*array;
+// 	char	**map;
+
+// 	fd = open("maps/map.ber", O_RDONLY);
+// 	if (fd < 0)
+// 		return (NULL);
+// 	array = ft_strdup("");
+// 	line = get_next_line(fd);
+// 	while (line != NULL)
+// 	{
+// 		array = join_str(array, line);
+// 		line = get_next_line(fd);
+// 	}
+
+// 	close(fd);
+// 	map = ft_split(array, '\n');
+// 	free(array);
+// 	return (map);
+// }
+
+char	**initialize_map(void)
 {
 	int		fd;
 	char	*line;
 	char	*array;
 	char	**map;
-	int		i;
-	
+
 	fd = open("maps/map.ber", O_RDONLY);
+	if (fd < 0)
+		return (NULL);
 	array = ft_strdup("");
 	if (!array)
-		return ;
-	if (fd < 0)
+		return (NULL);
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
-		printf("Error opening file");
-		return ;
+		printf("Line is: %s\n", line);
+		free(line);
+		line = get_next_line(fd);
 	}
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		array = join_str(array, line);
-	}
-	printf("STR LEN TEST: %zu\n", ft_strlen("324234"));
 	close(fd);
 	map = ft_split(array, '\n');
+	free(line);
+	free(array);
+	return (map);
+}
+
+int	find_rows(char **map)
+{
+	int	i;
+
+	i = 0;
 	if (map)
 	{
-		i = 0;
 		while (map[i])
 		{
-			printf("result[%d] = %s\n", i, map[i]);
 			i++;
 		}
-		i = 0;
-		while (map[i])
-		{
-			free(map[i]);
-			i++;
-		}
-		free(map);
 	}
+	return (i);
+}
+
+int	find_columns(char **map)
+{
+	int	rows;
+	int	columns;
+	int	saved_columns;
+
+	rows = 0;
+	columns = 0;
+	saved_columns = 0;
+	if (map)
+	{
+		while (map[rows])
+		{
+			while (map[rows][columns])
+			{
+				columns++;
+			}
+			if (saved_columns > 0 && saved_columns != columns)
+			{
+				return (-1);
+			}
+			saved_columns = columns;
+			columns = 0;
+			rows++;
+		}
+	}
+	return (saved_columns);
+}
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}		t_point;
+
+t_point	find_coordinates(char **map, char point)
+{
+	int		rows;
+	int		columns;
+	t_point	coordinates;
+
+	rows = 0;
+	coordinates.x = -1;
+	coordinates.y = -1;
+	if (map)
+	{
+		while (map[rows])
+		{
+			columns = 0;
+			while (map[rows][columns])
+			{
+				if (map[rows][columns] == point)
+				{
+					coordinates.y = rows;
+					coordinates.x = columns;
+					return (coordinates);
+				}
+				columns++;
+			}
+			rows++;
+		}
+	}
+	return (coordinates);
+}
+
+char	**copy_map(char **map, int rows)
+{
+	char	**map_copy;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	map_copy = (char **)malloc((rows + 1) * sizeof(char *));
+	if (!map_copy)
+		return (NULL);
+	while (i < rows)
+	{
+		map_copy[i] = ft_strdup(map[i]);
+		if (map_copy[i] == NULL)
+			return (frees_all(map_copy, i));
+		i++;
+	}
+	return (map_copy);
+}
+
+int	check_path(char **map, int rows, int cols, t_point cur, char exit)
+{
+	if (cur.y < 0 || cur.y >= rows || cur.x < 0 || cur.x >= cols)
+		return (0);
+	if (map[cur.y][cur.x] == '1' || map[cur.y][cur.x] == 'V')
+		return (0);
+	if (map[cur.y][cur.x] == exit)
+		return (1);
+	map[cur.y][cur.x] = 'V';
+	if (check_path(map, rows, cols, (t_point){cur.x - 1, cur.y}, exit)
+		|| check_path(map, rows, cols, (t_point){cur.x + 1, cur.y}, exit)
+		|| check_path(map, rows, cols, (t_point){cur.x, cur.y - 1}, exit)
+		|| check_path(map, rows, cols, (t_point){cur.x, cur.y + 1}, exit))
+	{
+		return (1);
+	}
+	return (0);
+}
+
+int	check_valid_path(char **map)
+{
+	t_point	player_coordinates;
+	char	**map_copy;
+	int		exit_found;
+
+	map_copy = copy_map(map, find_rows(map));
+	player_coordinates = find_coordinates(map, 'P');
+	exit_found = check_path(map_copy, find_rows(map_copy),
+			find_columns(map_copy), player_coordinates, 'E');
+	frees_all(map_copy, find_rows(map));
+	return (exit_found);
+}
+
+int	surrounded_walls(char **map, int cols, int rows)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (i == 0 && map[i][j] != '1')
+				return (0);
+			if (j == 0 && map[i][j] != '1')
+				return (0);
+			if (i == rows - 1 && map[i][j] != '1')
+				return (0);
+			if (j == cols - 1 && map[i][j] != '1')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	validate_map(char **map)
+{
+	if (surrounded_walls(map, find_columns(map), find_rows(map)) < 1)
+		return (0);
+	if (find_columns(map) < 3 || find_rows(map) < 3)
+		return (0);
+	if (check_valid_path(map) < 1)
+		return (0);
+	return (1);
+}
+
+void	leaks(void)
+{
+	system("leaks so_long");
 }
 
 int32_t	main(void)
 {
+	char	**map;
+
+	atexit(leaks);
+	map = initialize_map();
+	validate_map(map);
+	if (!validate_map(map))
+	{
+		frees_all(map, find_rows(map));
+		write(1, "Error\n", 6);
+		return (0);
+	}
+	print_arofars(map);
+	frees_all(map, find_rows(map));
 	// mlx_t			*mlx;
 	// mlx_texture_t	*texture;
 	// mlx_texture_t	*asteroid;
 	// mlx_image_t		*img;
 	// mlx_image_t		*asteroid_img;
-	initialize_map();
 	// // Start mlx
 	// mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	// if (!mlx)

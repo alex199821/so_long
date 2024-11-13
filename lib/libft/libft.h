@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 18:00:38 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/13 14:10:31 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/13 21:51:56 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				*ft_memmove(void *dst, const void *src, size_t n);
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *src);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
-char				*ft_strjoin(char const *prefix, char const *suffix);
+char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(char const *src, char const *set);
 char				**ft_split(char const *s, char c);
 size_t				ft_strlen(const char *c);
