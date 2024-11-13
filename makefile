@@ -6,7 +6,7 @@
 #    By: macbook <macbook@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:31:36 by auplisas          #+#    #+#              #
-#    Updated: 2024/11/13 02:22:21 by macbook          ###   ########.fr        #
+#    Updated: 2024/11/13 14:23:44 by macbook          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ $(LIBFT):
 
 clean:
 	rm -rf MLX42
+	cd lib && make clean
 	rm -f $(OBJS)
 
 fclean: clean

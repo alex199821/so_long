@@ -6,13 +6,13 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 16:58:57 by macbook           #+#    #+#             */
-/*   Updated: 2024/10/22 05:18:32 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:13:36 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *c)
+size_t	ft_strlen_gnl(const char *c)
 {
 	size_t	i;
 
@@ -44,7 +44,7 @@ void	*ft_memmove(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strchr(char *str, char c)
+char	*ft_strchr_gnl(char *str, char c)
 {
 	int	i;
 
@@ -60,12 +60,12 @@ char	*ft_strchr(char *str, char c)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup_gnl(const char *src)
 {
 	size_t	i;
 	char	*array;
 
-	i = ft_strlen(src);
+	i = ft_strlen_gnl(src);
 	array = (char *)malloc(sizeof(char) * (i + 1));
 	if (array == NULL)
 		return (NULL);
@@ -74,16 +74,16 @@ char	*ft_strdup(const char *src)
 	return (array);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr_gnl(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	char	*array;
 
 	i = 0;
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
+	if (start >= ft_strlen_gnl(s))
+		return (ft_strdup_gnl(""));
+	if (len > ft_strlen_gnl(s) - start)
+		len = ft_strlen_gnl(s) - start;
 	array = (char *)malloc(len + 1);
 	if (array == NULL)
 		return (NULL);

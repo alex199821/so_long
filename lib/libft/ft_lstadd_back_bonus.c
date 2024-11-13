@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:22 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/12 17:09:52 by auplisas          #+#    #+#             */
+/*   Updated: 2024/10/12 18:59:01 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*last_node;
 
-#endif
+	if (lst)
+	{
+		if (*lst)
+		{
+			last_node = ft_lstlast(*lst);
+			last_node->next = new;
+		}
+		else
+		{
+			*lst = new;
+		}
+	}
+}

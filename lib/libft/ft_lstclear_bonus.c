@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:22 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/12 17:49:55 by auplisas          #+#    #+#             */
+/*   Updated: 2024/10/13 01:22:47 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	t_list	*temp;
 
-#endif
+	if (lst && del && *lst)
+	{
+		while (lst && *lst)
+		{
+			temp = *lst;
+			(*lst) = (*lst)->next;
+			del(temp->content);
+			free(temp);
+		}
+	}
+}

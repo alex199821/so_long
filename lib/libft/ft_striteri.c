@@ -1,19 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:22 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/11 20:14:18 by auplisas          #+#    #+#             */
+/*   Updated: 2024/10/11 21:30:02 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "libft.h"
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	int	str_len;
+	int	i;
 
-#endif
+	str_len = ft_strlen(s);
+	i = 0;
+	while (i < str_len)
+	{
+		f(i, &s[i]);
+		i++;
+	}
+}
+
+// int	main(void)
+// {
+// 	return (0);
+// }

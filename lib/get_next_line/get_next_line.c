@@ -6,21 +6,21 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 16:11:37 by auplisas          #+#    #+#             */
-/*   Updated: 2024/10/22 05:21:42 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:16:15 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *prefix, char const *suffix)
+char	*ft_strjoin_gnl(char const *prefix, char const *suffix)
 {
 	char	*array;
 	size_t	prefixlength;
 	size_t	suffixlength;
 	size_t	i;
 
-	prefixlength = ft_strlen(prefix);
-	suffixlength = ft_strlen(suffix);
+	prefixlength = ft_strlen_gnl(prefix);
+	suffixlength = ft_strlen_gnl(suffix);
 	i = 0;
 	array = (char *)malloc(prefixlength + suffixlength + 1);
 	if (array == NULL)
@@ -49,7 +49,7 @@ char	*polish_new_line(char *buffer)
 		return (NULL);
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	line = ft_substr(buffer, 0, i + 1);
+	line = ft_substr_gnl(buffer, 0, i + 1);
 	if (line == NULL)
 		return (NULL);
 	return (line);
@@ -60,10 +60,10 @@ char	*create_saved_chars(char *line_read)
 	char	*saved_chars;
 	char	*newline_pos;
 
-	newline_pos = ft_strchr(line_read, '\n');
+	newline_pos = ft_strchr_gnl(line_read, '\n');
 	if (newline_pos == NULL)
 		return (free(line_read), NULL);
-	saved_chars = ft_strdup(newline_pos + 1);
+	saved_chars = ft_strdup_gnl(newline_pos + 1);
 	if (!saved_chars)
 		return (free(line_read), NULL);
 	return (free(line_read), saved_chars);
@@ -76,7 +76,7 @@ char	*return_single_line(int fd, char *buffer)
 	char	*temp;
 
 	if (!buffer)
-		buffer = ft_strdup("");
+		buffer = ft_strdup_gnl("");
 	if (!buffer)
 		return (NULL);
 	bytes_read = 1;
@@ -86,12 +86,12 @@ char	*return_single_line(int fd, char *buffer)
 		if (bytes_read < 0)
 			return (free(buffer), NULL);
 		read_data[bytes_read] = '\0';
-		temp = ft_strjoin(buffer, read_data);
+		temp = ft_strjoin_gnl(buffer, read_data);
 		free(buffer);
 		if (!temp)
 			return (NULL);
 		buffer = temp;
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr_gnl(buffer, '\n'))
 			break ;
 	}
 	return (buffer);

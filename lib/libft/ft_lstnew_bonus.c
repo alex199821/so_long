@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:22 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/12 02:26:55 by auplisas          #+#    #+#             */
+/*   Updated: 2024/10/12 03:59:19 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "libft.h"
+#include <unistd.h>
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*list;
 
-#endif
+	list = (t_list *)malloc(sizeof(*list));
+	if (list == NULL)
+	{
+		return (NULL);
+	}
+	list->content = content;
+	list->next = NULL;
+	return (list);
+}

@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/13 13:57:22 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/11 21:42:23 by auplisas          #+#    #+#             */
+/*   Updated: 2024/10/11 22:33:51 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "libft.h"
+#include <unistd.h>
 
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+	int	str_len;
 
-#endif
+	str_len = ft_strlen(s);
+	i = 0;
+	while (i < str_len)
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}

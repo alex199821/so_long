@@ -6,7 +6,7 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/13 04:18:57 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:22:05 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,49 @@
 #include <stdio.h>
 
 ////LINKED LIST MAP////////
-t_stack_node	*create_node(char *line)
-{
-	t_stack_node	*new_node;
 
-	new_node = (t_stack_node *)malloc(sizeof(t_stack_node));
+// size_t	ft_strlensd(const char *c)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (c[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
+
+t_map	*create_node(char *line)
+{
+	t_map	*new_node;
+	size_t	length;
+	char	*update_line;
+
+	length = ft_strlen(line);
+	update_line = line;
+	if (update_line[length - 1] != '\0')
+	{
+		update_line[length - 1] = '\0';
+	}
+	new_node = (t_map *)malloc(sizeof(t_map));
 	if (!new_node)
 		return (NULL);
-	new_node->row_index = -1;
-	new_node->row = line;
+	new_node->row_index = 0;
+	new_node->row = update_line;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
 }
 
-void	add_to_end(t_stack_node **head, int value)
+void	add_to_end(t_map **head, char *line)
 {
-	t_stack_node	*new_node;
-	t_stack_node	*temp;
+	t_map	*new_node;
+	t_map	*temp;
+	int		i;
 
-	new_node = create_node(value);
+	i = 1;
+	new_node = create_node(line);
 	if (!new_node)
 		return ;
 	if (*head == NULL)
@@ -47,50 +70,20 @@ void	add_to_end(t_stack_node **head, int value)
 	{
 		temp = *head;
 		while (temp->next != NULL)
+		{
 			temp = temp->next;
+			i++;
+		}
 		temp->next = new_node;
+		temp->next->row_index = i;
 		new_node->prev = temp;
 	}
 }
 
-t_stack_node	*remove_from_beginning(t_stack_node **head)
+int	lstsize(t_map *stack)
 {
-	t_stack_node	*removed_node;
-
-	if (*head == NULL)
-		return (NULL);
-	removed_node = *head;
-	*head = (*head)->next;
-	if (*head != NULL)
-		(*head)->prev = NULL;
-	removed_node->next = NULL;
-	return (removed_node);
-}
-
-t_stack_node	*remove_from_end(t_stack_node **head)
-{
-	t_stack_node	*temp;
-
-	if (*head == NULL)
-		return (NULL);
-	temp = *head;
-	if (temp->next == NULL)
-	{
-		*head = NULL;
-		temp->prev = NULL;
-		return (temp);
-	}
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->prev->next = NULL;
-	temp->prev = NULL;
-	return (temp);
-}
-
-int	lstsize(t_stack_node *stack)
-{
-	t_stack_node	*current;
-	int				i;
+	t_map	*current;
+	int		i;
 
 	current = stack;
 	i = 0;
@@ -103,7 +96,6 @@ int	lstsize(t_stack_node *stack)
 }
 ////LINKED LIST MAP////////
 
-
 #define WIDTH 1024
 #define HEIGHT 512
 
@@ -113,12 +105,40 @@ int	lstsize(t_stack_node *stack)
 // 	exit(EXIT_FAILURE);
 // }
 
-void initialize_map(void)
+void	print_list(t_map *head)
+{
+	t_map	*temp;
+
+	temp = head;
+	while (temp != NULL)
+	{
+		printf("%s and index is: %d\n", temp->row, temp->row_index);
+		temp = temp->next;
+	}
+	printf("\nNULL\n");
+}
+
+char	*join_str(char *buffer, char *tmp)
+{
+	char	*str;
+
+	str = ft_strjoin(buffer, tmp);
+	free(buffer);
+	return (str);
+}
+
+void	initialize_map(void)
 {
 	int		fd;
 	char	*line;
-
+	char	*array;
+	char	**map;
+	int		i;
+	
 	fd = open("maps/map.ber", O_RDONLY);
+	array = ft_strdup("");
+	if (!array)
+		return ;
 	if (fd < 0)
 	{
 		printf("Error opening file");
@@ -126,9 +146,27 @@ void initialize_map(void)
 	}
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		printf("Line: %s", line);
+		array = join_str(array, line);
 	}
+	printf("STR LEN TEST: %zu\n", ft_strlen("324234"));
 	close(fd);
+	map = ft_split(array, '\n');
+	if (map)
+	{
+		i = 0;
+		while (map[i])
+		{
+			printf("result[%d] = %s\n", i, map[i]);
+			i++;
+		}
+		i = 0;
+		while (map[i])
+		{
+			free(map[i]);
+			i++;
+		}
+		free(map);
+	}
 }
 
 int32_t	main(void)
