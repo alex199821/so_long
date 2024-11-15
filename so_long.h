@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:44:36 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 02:24:15 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 18:21:27 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# define IMG_PIXEL 48
+# define PXL 48
 
 # include "./MLX42/include/MLX42/MLX42.h"
 # include "lib/lib.h"
@@ -35,6 +35,8 @@ typedef struct s_game
 	char		**map;
 	int			rows;
 	int			columns;
+	int			total_collectibles;
+	int			collectibles_collected;
 	t_point		player_coordinates;
 	mlx_image_t	*background;
 	mlx_image_t	*rocket;
