@@ -6,7 +6,7 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:44:36 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 02:10:22 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 02:24:15 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_game
 	char		**map;
 	int			rows;
 	int			columns;
-	t_point		player_coords;
+	t_point		player_coordinates;
 	mlx_image_t	*background;
 	mlx_image_t	*rocket;
 	mlx_image_t	*exit;
@@ -47,6 +47,7 @@ typedef struct s_game
 char			**free_arofar(char **parentarray, int arrayindex);
 // valid_path.c
 int				check_valid_path(char **map);
+t_point			find_coordinates(char **map, char point);
 // validate.c
 int				validate_map(char **map);
 int				find_rows(char **map);

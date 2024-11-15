@@ -6,7 +6,7 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 01:26:13 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 03:47:13 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,24 @@ void	flood_map_background(t_game *game)
 	}
 }
 
+// void clean_map(t_game *game)
+// {
+// 	int	y;
+// 	int	x;
+
+// 	y = 0;
+// 	while (y < game->rows)
+// 	{
+// 		x = 0;
+// 		while (x < game->columns)
+// 		{
+			
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
 void	flood_map_items(t_game *game)
 {
 	int	y;
@@ -168,6 +186,11 @@ void	flood_map_items(t_game *game)
 				mlx_image_to_window(game->mlx, game->collectible, x * IMG_PIXEL,
 					y * IMG_PIXEL);
 			}
+			if (game->map[y][x] == 'L')
+			{
+				mlx_image_to_window(game->mlx, game->background, x * IMG_PIXEL,
+					y * IMG_PIXEL);
+			}
 			x++;
 		}
 		y++;
@@ -186,6 +209,7 @@ t_game	*initialize_game_data(void)
 	// 	return (NULL);
 	game->rows = find_rows(game->map);
 	game->columns = find_columns(game->map);
+	game->player_coordinates = find_coordinates(game->map, 'P');
 	game->mlx = mlx_init(IMG_PIXEL * 34, IMG_PIXEL * 6, "Trip to Magrathea",
 			false);
 	// if (!game->mlx)
@@ -194,39 +218,100 @@ t_game	*initialize_game_data(void)
 	return (game);
 }
 
-void	ft_hook(void *param)
+// void	ft_hook(void *param)
+// {
+// 	t_game	*game;
+
+// 	game = param;
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+// 	{
+// 		mlx_close_window(game->mlx);
+// 	}
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+// 	{
+// 		write(1, "UP", 2);
+// 		// game->map[0][0] = 'E';
+// 		// flood_map_items(game);
+// 		// image->instances[0].y -= 5;
+// 	}
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+// 	{
+// 		write(1, "DOWN", 4);
+// 		// image->instances[0].y += 5;
+// 	}
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+// 	{
+// 		write(1, "LEFT", 4);
+// 		game->map[game->player_coordinates.y][game->player_coordinates.x - 1] = 'P';
+// 		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+// 		game->player_coordinates = (t_point){game->player_coordinates.x - 1, game->player_coordinates.y};
+// 				flood_map_items(game);
+
+// 	}
+// 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+// 	{
+// 		write(1, "RIGHT", 5);
+// 		// mlx_image_to_window(game->mlx, game->background, 1 * IMG_PIXEL, 4
+// 		// 	* IMG_PIXEL);
+// 		game->map[game->player_coordinates.y][game->player_coordinates.x + 1] = 'P';
+// 		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+// 		game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
+
+// 		// game->player_coordinates = (t_point){game->player_coordinates.x + 1,
+// 		// 	game->player_coordinates.y};
+// 		print_arofars(game->map);
+// 		flood_map_items(game);
+// 		// mlx_image_to_window(game->mlx, game->rocket, 2 * IMG_PIXEL, 4
+// 		// 	* IMG_PIXEL);
+// 		// image->instances[0].x += 5;
+// 	}
+// }
+
+void	my_keyhook(mlx_key_data_t keydata, void* param)
 {
 	t_game	*game;
 
 	game = param;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_close_window(game->mlx);
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
 		write(1, "UP", 2);
-		game->map[0][0] = 'E';
-		flood_map_items(game);
+		// game->map[0][0] = 'E';
+		// flood_map_items(game);
 		// image->instances[0].y -= 5;
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 	{
 		write(1, "DOWN", 4);
 		// image->instances[0].y += 5;
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 	{
 		write(1, "LEFT", 4);
-		// image->instances[0].x -= 5;
+		game->map[game->player_coordinates.y][game->player_coordinates.x - 1] = 'P';
+		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		game->player_coordinates = (t_point){game->player_coordinates.x - 1, game->player_coordinates.y};
+				flood_map_items(game);
+
 	}
-	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 	{
 		write(1, "RIGHT", 5);
 		// mlx_image_to_window(game->mlx, game->background, 1 * IMG_PIXEL, 4
 		// 	* IMG_PIXEL);
-		mlx_image_to_window(game->mlx, game->rocket, 2 * IMG_PIXEL, 4
-			* IMG_PIXEL);
+		game->map[game->player_coordinates.y][game->player_coordinates.x + 1] = 'P';
+		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
+
+		// game->player_coordinates = (t_point){game->player_coordinates.x + 1,
+		// 	game->player_coordinates.y};
+		print_arofars(game->map);
+		flood_map_items(game);
+		// mlx_image_to_window(game->mlx, game->rocket, 2 * IMG_PIXEL, 4
+		// 	* IMG_PIXEL);
 		// image->instances[0].x += 5;
 	}
 }
@@ -235,7 +320,8 @@ int	launch_game(t_game *game)
 {
 	flood_map_background(game);
 	flood_map_items(game);
-	mlx_loop_hook(game->mlx, ft_hook, game);
+	mlx_key_hook(game->mlx, my_keyhook, game);
+	// mlx_loop_hook(game->mlx, ft_hook, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
 	free_arofar(game->map, find_rows(game->map));
@@ -251,87 +337,3 @@ int	main(void)
 	launch_game(game);
 	return (0);
 }
-
-// #define WIDTH 512
-// #define HEIGHT 512
-
-// static mlx_image_t	*image;
-
-//
-// -----------------------------------------------------------------------------
-
-// int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-// {
-// 	return (r << 24 | g << 16 | b << 8 | a);
-// }
-
-// void	ft_randomize(void *param)
-// {
-// 	(void)param;
-// 	for (uint32_t i = 0; i < image->width; ++i)
-// 	{
-// 		for (uint32_t y = 0; y < image->height; ++y)
-// 		{
-// 			uint32_t color = ft_pixel(rand() % 0xFF, // R
-// 										rand() % 0xFF, // G
-// 										rand() % 0xFF, // B
-// 										rand() % 0xFF  // A
-// 			);
-// 			mlx_put_pixel(image, i, y, color);
-// 		}
-// 	}
-// }
-
-// void	ft_hook(void *param)
-// {
-// 	mlx_t	*mlx;
-
-// 	mlx = param;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(mlx);
-// 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-// 	{
-// 		write(1, "UP", 2);
-// 		image->instances[0].y -= 5;
-// 	}
-// 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-// 		image->instances[0].y += 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-// 		image->instances[0].x -= 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-// 		image->instances[0].x += 5;
-// }
-
-//
-// -----------------------------------------------------------------------------
-
-// int32_t	main(void)
-// {
-// 	mlx_t *mlx;
-
-// 	// Gotta error check this stuff
-// 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-// 	{
-// 		puts(mlx_strerror(mlx_errno));
-// 		return (EXIT_FAILURE);
-// 	}
-// 	if (!(image = mlx_new_image(mlx, 128, 128)))
-// 	{
-// 		mlx_close_window(mlx);
-// 		puts(mlx_strerror(mlx_errno));
-// 		return (EXIT_FAILURE);
-// 	}
-// 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-// 	{
-// 		mlx_close_window(mlx);
-// 		puts(mlx_strerror(mlx_errno));
-// 		return (EXIT_FAILURE);
-// 	}
-
-// 	// mlx_loop_hook(mlx, ft_randomize, mlx);
-// 	mlx_loop_hook(mlx, ft_hook, mlx);
-
-// 	mlx_loop(mlx);
-// 	mlx_terminate(mlx);
-// 	return (EXIT_SUCCESS);
-// }
