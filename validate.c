@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:03:56 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/14 00:26:37 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 21:16:04 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,52 @@ int	surrounded_walls(char **map, int cols, int rows)
 	return (1);
 }
 
+int	collectible_exists(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'C')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	validate_map(char **map)
 {
 	if (surrounded_walls(map, find_columns(map), find_rows(map)) < 1)
+	{
+		write(1, "Error\n", 6);
+		write(1, "Your Map is Not Surrounded by Walls\n", 38);
 		return (0);
+	}
 	if (find_columns(map) < 3 || find_rows(map) < 3)
+	{
+		write(1, "Error\n", 6);
+		write(1, "Your Map is Not a Rectangle\n", 30);
 		return (0);
+	}
 	if (check_valid_path(map) < 1)
+	{
+		write(1, "Error\n", 6);
+		write(1, "No path to exit\n", 16);
 		return (0);
+	}
+	if (collectible_exists(map) < 1)
+	{
+		write(1, "Error\n", 6);
+		write(1, "No collectible on the Map\n", 27);
+		return (0);
+	}
 	return (1);
 }

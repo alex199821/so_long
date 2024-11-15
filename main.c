@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 18:53:53 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/15 21:09:00 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ char	**free_arofar(char **parentarray, int arrayindex)
 	return (NULL);
 }
 
+int	check_for_double_nl(char *string)
+{
+	int	i;
+
+	if (string == NULL)
+		return (0);
+	i = 0;
+	while (string[i] != '\0')
+	{
+		if (string[i] == '\n' && string[i + 1] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 char	**initialize_map(void)
 {
 	int		fd;
@@ -72,6 +87,13 @@ char	**initialize_map(void)
 		line = get_next_line(fd);
 	}
 	close(fd);
+	if (check_for_double_nl(array))
+	{
+		write(1, "Error\n", 6);
+		write(1, "Your map contains multiple New Lines in a Row\n", 47);
+		free(array);
+		exit(1);
+	}
 	map = ft_split(array, '\n');
 	free(array);
 	return (map);
@@ -85,8 +107,7 @@ char	**create_map(void)
 	if (!validate_map(map))
 	{
 		free_arofar(map, find_rows(map));
-		write(1, "Error\n", 6);
-		return (NULL);
+		exit(EXIT_FAILURE);
 	}
 	return (map);
 }
@@ -226,8 +247,6 @@ int	check_collectible(t_game *game, int x, int y)
 		game->map[game->player_coordinates.y + y][game->player_coordinates.x
 			+ x] = '0';
 		game->collectibles_collected = game->collectibles_collected + 1;
-		printf("Total Collectibles: %d\n", game->total_collectibles);
-		printf("Collectibles Collected: %d\n", game->collectibles_collected);
 		return (1);
 	}
 	else
@@ -250,13 +269,19 @@ void	move(t_game *game, int x, int y)
 		// 	write(1, "RIGHT\n", 6);
 		check_collectible(game, x, y);
 		check_exit_possible(game, x, y);
-		mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x + x) * PXL, (game->player_coordinates.y + y) * PXL);
+		mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x
+				+ x) * PXL, (game->player_coordinates.y + y) * PXL);
 		if (game->map[game->player_coordinates.y][game->player_coordinates.x] != 'E')
 		{
-			mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * PXL, (game->player_coordinates.y) * PXL);
-		}else
+			mlx_image_to_window(game->mlx, game->background,
+				(game->player_coordinates.x) * PXL, (game->player_coordinates.y)
+				* PXL);
+		}
+		else
 		{
-			mlx_image_to_window(game->mlx, game->exit, (game->player_coordinates.x) * PXL, (game->player_coordinates.y) * PXL);
+			mlx_image_to_window(game->mlx, game->exit,
+				(game->player_coordinates.x) * PXL, (game->player_coordinates.y)
+				* PXL);
 		}
 		game->player_coordinates = (t_point){game->player_coordinates.x + x,
 			game->player_coordinates.y + y};
@@ -301,7 +326,7 @@ int	main(void)
 {
 	t_game	*game;
 
-	atexit(leaks);
+	// atexit(leaks);
 	game = initialize_game_data();
 	launch_game(game);
 	return (0);
