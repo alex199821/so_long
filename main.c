@@ -6,7 +6,7 @@
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 03:47:13 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 05:18:48 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,23 +137,41 @@ void	flood_map_background(t_game *game)
 	}
 }
 
-// void clean_map(t_game *game)
-// {
-// 	int	y;
-// 	int	x;
-
-// 	y = 0;
-// 	while (y < game->rows)
-// 	{
-// 		x = 0;
-// 		while (x < game->columns)
-// 		{
-			
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
+void clear_window(t_game *game)
+{
+    // Iterate over the map and delete any dynamically created images
+    for (int y = 0; y < game->rows; y++)
+    {
+        for (int x = 0; x < game->columns; x++)
+        {
+            if (game->map[y][x] == '1' && game->wall)
+            {
+                mlx_delete_image(game->mlx, game->wall);
+                game->wall = NULL;
+            }
+            else if (game->map[y][x] == 'E' && game->exit)
+            {
+                mlx_delete_image(game->mlx, game->exit);
+                game->exit = NULL;
+            }
+            else if (game->map[y][x] == 'P' && game->rocket)
+            {
+                mlx_delete_image(game->mlx, game->rocket);
+                game->rocket = NULL;
+            }
+            else if (game->map[y][x] == 'C' && game->collectible)
+            {
+                mlx_delete_image(game->mlx, game->collectible);
+                game->collectible = NULL;
+            }
+            else if (game->map[y][x] == 'L' && game->background)
+            {
+                mlx_delete_image(game->mlx, game->background);
+                game->background = NULL;
+            }
+        }
+    }
+}
 
 void	flood_map_items(t_game *game)
 {
@@ -218,56 +236,14 @@ t_game	*initialize_game_data(void)
 	return (game);
 }
 
-// void	ft_hook(void *param)
-// {
-// 	t_game	*game;
+void move(t_game *game, int x, int y)
+{
+	mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x + x) * IMG_PIXEL, (game->player_coordinates.y + y) * IMG_PIXEL);
+	mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+	game->player_coordinates = (t_point){game->player_coordinates.x + x, game->player_coordinates.y + y};
+}
 
-// 	game = param;
-// 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-// 	{
-// 		mlx_close_window(game->mlx);
-// 	}
-// 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
-// 	{
-// 		write(1, "UP", 2);
-// 		// game->map[0][0] = 'E';
-// 		// flood_map_items(game);
-// 		// image->instances[0].y -= 5;
-// 	}
-// 	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-// 	{
-// 		write(1, "DOWN", 4);
-// 		// image->instances[0].y += 5;
-// 	}
-// 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-// 	{
-// 		write(1, "LEFT", 4);
-// 		game->map[game->player_coordinates.y][game->player_coordinates.x - 1] = 'P';
-// 		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
-// 		game->player_coordinates = (t_point){game->player_coordinates.x - 1, game->player_coordinates.y};
-// 				flood_map_items(game);
-
-// 	}
-// 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-// 	{
-// 		write(1, "RIGHT", 5);
-// 		// mlx_image_to_window(game->mlx, game->background, 1 * IMG_PIXEL, 4
-// 		// 	* IMG_PIXEL);
-// 		game->map[game->player_coordinates.y][game->player_coordinates.x + 1] = 'P';
-// 		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
-// 		game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
-
-// 		// game->player_coordinates = (t_point){game->player_coordinates.x + 1,
-// 		// 	game->player_coordinates.y};
-// 		print_arofars(game->map);
-// 		flood_map_items(game);
-// 		// mlx_image_to_window(game->mlx, game->rocket, 2 * IMG_PIXEL, 4
-// 		// 	* IMG_PIXEL);
-// 		// image->instances[0].x += 5;
-// 	}
-// }
-
-void	my_keyhook(mlx_key_data_t keydata, void* param)
+void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
 
@@ -279,40 +255,67 @@ void	my_keyhook(mlx_key_data_t keydata, void* param)
 	if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 	{
 		write(1, "UP", 2);
-		// game->map[0][0] = 'E';
+		// game->map[game->player_coordinates.y
+		// 	- 1][game->player_coordinates.x] = 'P';
+		// game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		// game->player_coordinates = (t_point){game->player_coordinates.x,
+		// 	game->player_coordinates.y - 1};
+		// // clear_window(game);
 		// flood_map_items(game);
-		// image->instances[0].y -= 5;
+
+		// mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y - 1) * IMG_PIXEL);
+		// mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// game->player_coordinates = (t_point){game->player_coordinates.x, game->player_coordinates.y - 1};
+		move(game, 0, -1);
 	}
 	if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 	{
 		write(1, "DOWN", 4);
-		// image->instances[0].y += 5;
+		// game->map[game->player_coordinates.y
+		// 	+ 1][game->player_coordinates.x] = 'P';
+		// game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		// game->player_coordinates = (t_point){game->player_coordinates.x,
+		// 	game->player_coordinates.y + 1};
+		// // clear_window(game);
+		// flood_map_items(game);
+
+		// mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y + 1) * IMG_PIXEL);
+		// mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// game->player_coordinates = (t_point){game->player_coordinates.x, game->player_coordinates.y + 1};
+		move(game, 0, 1);
 	}
 	if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 	{
 		write(1, "LEFT", 4);
-		game->map[game->player_coordinates.y][game->player_coordinates.x - 1] = 'P';
-		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
-		game->player_coordinates = (t_point){game->player_coordinates.x - 1, game->player_coordinates.y};
-				flood_map_items(game);
+		// game->map[game->player_coordinates.y][game->player_coordinates.x
+		// 	- 1] = 'P';
+		// game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		// game->player_coordinates = (t_point){game->player_coordinates.x - 1,
+		// 	game->player_coordinates.y};
+		// // clear_window(game);
+		// flood_map_items(game);
 
+		// mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x - 1) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// game->player_coordinates = (t_point){game->player_coordinates.x - 1, game->player_coordinates.y};
+		
+		move(game, -1, 0);
 	}
 	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 	{
 		write(1, "RIGHT", 5);
-		// mlx_image_to_window(game->mlx, game->background, 1 * IMG_PIXEL, 4
-		// 	* IMG_PIXEL);
-		game->map[game->player_coordinates.y][game->player_coordinates.x + 1] = 'P';
-		game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
-		game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
+		// game->map[game->player_coordinates.y][game->player_coordinates.x
+		// 	+ 1] = 'P';
+		// game->map[game->player_coordinates.y][game->player_coordinates.x] = 'L';
+		// game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
+		// // clear_window(game);
+		// flood_map_items(game);
 
-		// game->player_coordinates = (t_point){game->player_coordinates.x + 1,
-		// 	game->player_coordinates.y};
-		print_arofars(game->map);
-		flood_map_items(game);
-		// mlx_image_to_window(game->mlx, game->rocket, 2 * IMG_PIXEL, 4
-		// 	* IMG_PIXEL);
-		// image->instances[0].x += 5;
+		// mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x + 1) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * IMG_PIXEL, (game->player_coordinates.y) * IMG_PIXEL);
+		// game->player_coordinates = (t_point){game->player_coordinates.x + 1, game->player_coordinates.y};
+		
+		move(game, 1, 0);
 	}
 }
 
@@ -331,7 +334,7 @@ int	launch_game(t_game *game)
 
 int	main(void)
 {
-	t_game	*game;
+	t_game *game;
 
 	game = initialize_game_data();
 	launch_game(game);
