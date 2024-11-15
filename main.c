@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 18:31:56 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:53:53 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,11 @@ void	flood_map_items(t_game *game)
 			if (game->map[y][x] == 'P')
 				mlx_image_to_window(game->mlx, game->rocket, x * PXL, y * PXL);
 			if (game->map[y][x] == 'C')
+			{
 				mlx_image_to_window(game->mlx, game->collectible, x * PXL, y
 					* PXL);
+				game->total_collectibles = game->total_collectibles + 1;
+			}
 			// if (game->map[y][x] == 'L')
 			// 	mlx_image_to_window(game->mlx, game->background, x * PXL, y
 			// 		* PXL);
@@ -177,8 +180,11 @@ t_game	*initialize_game_data(void)
 	// 	return (NULL);
 	game->rows = find_rows(game->map);
 	game->columns = find_columns(game->map);
+	game->total_collectibles = 0;
+	game->collectibles_collected = 0;
 	game->player_coordinates = find_coordinates(game->map, 'P');
-	game->mlx = mlx_init(PXL * 34, PXL * 6, "Trip to Magrathea", false);
+	game->mlx = mlx_init(PXL * game->columns, PXL * game->rows,
+			"Trip to Magrathea", false);
 	// if (!game->mlx)
 	// 	return (NULL);
 	add_assets(game);
@@ -187,9 +193,41 @@ t_game	*initialize_game_data(void)
 
 int	check_wall(t_game *game, int x, int y)
 {
-	if (game->map[game->player_coordinates.y
-		+ y][game->player_coordinates.x + x] == '1')
+	if (game->map[game->player_coordinates.y + y][game->player_coordinates.x
+		+ x] == '1')
 	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+int	check_exit_possible(t_game *game, int x, int y)
+{
+	if (game->map[game->player_coordinates.y + y][game->player_coordinates.x
+		+ x] == 'E' && game->total_collectibles == game->collectibles_collected)
+	{
+		mlx_close_window(game->mlx);
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+int	check_collectible(t_game *game, int x, int y)
+{
+	if (game->map[game->player_coordinates.y + y][game->player_coordinates.x
+		+ x] == 'C')
+	{
+		game->map[game->player_coordinates.y + y][game->player_coordinates.x
+			+ x] = '0';
+		game->collectibles_collected = game->collectibles_collected + 1;
+		printf("Total Collectibles: %d\n", game->total_collectibles);
+		printf("Collectibles Collected: %d\n", game->collectibles_collected);
 		return (1);
 	}
 	else
@@ -202,19 +240,24 @@ void	move(t_game *game, int x, int y)
 {
 	if (check_wall(game, x, y) == 0)
 	{
-		if (x == 0 && y == -1)
-			write(1, "UP\n", 3);
-		if (x == 0 && y == 1)
-			write(1, "DOWN\n", 5);
-		if (x == -1 && y == 0)
-			write(1, "LEFT\n", 5);
-		if (x == 1 && y == 0)
-			write(1, "RIGHT\n", 6);
-		mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x
-				+ x) * PXL, (game->player_coordinates.y + y) * PXL);
-		mlx_image_to_window(game->mlx, game->background,
-			(game->player_coordinates.x) * PXL, (game->player_coordinates.y)
-			* PXL);
+		// if (x == 0 && y == -1)
+		// 	write(1, "UP\n", 3);
+		// if (x == 0 && y == 1)
+		// 	write(1, "DOWN\n", 5);
+		// if (x == -1 && y == 0)
+		// 	write(1, "LEFT\n", 5);
+		// if (x == 1 && y == 0)
+		// 	write(1, "RIGHT\n", 6);
+		check_collectible(game, x, y);
+		check_exit_possible(game, x, y);
+		mlx_image_to_window(game->mlx, game->rocket, (game->player_coordinates.x + x) * PXL, (game->player_coordinates.y + y) * PXL);
+		if (game->map[game->player_coordinates.y][game->player_coordinates.x] != 'E')
+		{
+			mlx_image_to_window(game->mlx, game->background, (game->player_coordinates.x) * PXL, (game->player_coordinates.y) * PXL);
+		}else
+		{
+			mlx_image_to_window(game->mlx, game->exit, (game->player_coordinates.x) * PXL, (game->player_coordinates.y) * PXL);
+		}
 		game->player_coordinates = (t_point){game->player_coordinates.x + x,
 			game->player_coordinates.y + y};
 	}
