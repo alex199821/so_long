@@ -6,12 +6,13 @@
 #    By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:31:36 by auplisas          #+#    #+#              #
-#    Updated: 2024/11/13 21:55:06 by auplisas         ###   ########.fr        #
+#    Updated: 2024/11/15 17:07:50 by auplisas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 CC = cc
+# CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 CFLAGS = -Wall -Werror -Wextra
 USER = $(shell whoami)
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"

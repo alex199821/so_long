@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/15 05:18:48 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/15 17:07:30 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,10 +332,15 @@ int	launch_game(t_game *game)
 	return (0);
 }
 
+void	leaks(void)
+{
+	system("leaks so_long");
+}
+
 int	main(void)
 {
 	t_game *game;
-
+	atexit(leaks);
 	game = initialize_game_data();
 	launch_game(game);
 	return (0);
