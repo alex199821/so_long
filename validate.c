@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:03:56 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/15 21:16:04 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/16 02:21:28 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	validate_map(char **map)
 	if (check_valid_path(map) < 1)
 	{
 		write(1, "Error\n", 6);
-		write(1, "No path to exit\n", 16);
+		write(1, "Player Unable to Exit\n", 23);
 		return (0);
 	}
 	if (collectible_exists(map) < 1)

@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 02:16:25 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/16 03:17:28 by macbook          ###   ########.fr       */
+/*   Created: 2024/10/16 16:10:07 by auplisas          #+#    #+#             */
+/*   Updated: 2024/11/16 03:22:52 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include "ft_printf.h"
 
-# include "ftprintf/ft_printf.h"
-# include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
-#endif
+void	ft_printf_putchar_fd(char c, int fd, int *count)
+{
+	int	written;
+
+	if (*count == -1)
+		return ;
+	written = write(fd, &c, 1);
+	if (written == -1)
+	{
+		*count = -1;
+		return ;
+	}
+	else
+		*count += written;
+}

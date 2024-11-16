@@ -6,7 +6,7 @@
 #    By: macbook <macbook@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/13 02:17:11 by macbook           #+#    #+#              #
-#    Updated: 2024/11/13 14:19:26 by macbook          ###   ########.fr        #
+#    Updated: 2024/11/16 03:23:42 by macbook          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,19 @@ LIBFT_SRCS =	ft_putnbr_fd.c \
 
 LIBFT_OBJS = $(addprefix $(LIBFT_DIR)/, $(LIBFT_SRCS:.c=.o))
 
-OBJS = $(GET_NEXT_LINE_OBJS) ${LIBFT_OBJS}
+FTPRINTF_DIR = ./ftprintf
+FTPRINTF_DIR_SRCS = ft_calloc.c \
+					ft_print_hex.c \
+					ft_print_integer.c \
+					ft_print_long_integer.c \
+					ft_print_pointer.c \
+					ft_printf.c \
+					ft_putchar.c \
+					ft_putstr.c \
+					
+FTPRINTF_DIR_OBJS = $(addprefix $(FTPRINTF_DIR)/, $(FTPRINTF_DIR_SRCS:.c=.o))
+
+OBJS = $(GET_NEXT_LINE_OBJS) ${LIBFT_OBJS} ${FTPRINTF_DIR_OBJS}
 
 OBJDIR = ./objs
 

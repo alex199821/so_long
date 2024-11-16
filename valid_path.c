@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   valid_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:06:53 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/15 17:11:11 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/16 02:39:02 by macbook          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,9 @@ int	check_path(char **map, int rows, int cols, t_point cur)
 	return (0);
 }
 
-// int	check_valid_path(char **map)
-// {
-// 	t_point	player_coordinates;
-// 	char	**map_copy;
-// 	int		exit_found;
-
-// 	map_copy = copy_map(map, find_rows(map));
-// 	player_coordinates = find_coordinates(map, 'P');
-// 	exit_found = check_path(map_copy, find_rows(map_copy),
-// 			find_columns(map_copy), player_coordinates);
-// 	free_arofar(map_copy, find_rows(map));
-// 	return (exit_found);
-// }
-
 int	check_valid_path(char **map)
 {
-	t_point	player_coordinates;
+	t_point	player_coords;
 	char	**map_copy;
 	int		exit_found;
 	int		rows;
@@ -102,8 +88,8 @@ int	check_valid_path(char **map)
 	rows = find_rows(map);
 	columns = find_columns(map);
 	map_copy = copy_map(map, rows);
-	player_coordinates = find_coordinates(map, 'P');
-	exit_found = check_path(map_copy, rows, columns, player_coordinates);
+	player_coords = find_coordinates(map, 'P');
+	exit_found = check_path(map_copy, rows, columns, player_coords);
 	free_arofar(map_copy, rows);
 	return (exit_found);
 }
