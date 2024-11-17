@@ -6,11 +6,12 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 01:25:04 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/17 22:38:23 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:17:09 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <stdio.h>
 
 char	**initialize_map(char *argv)
 {
@@ -21,7 +22,7 @@ char	**initialize_map(char *argv)
 
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
-		return (NULL);
+		return (write(1, "Error\nFile N/A\n", 15), exit(EXIT_FAILURE), NULL);
 	array = ft_strdup("");
 	line = get_next_line(fd);
 	while (line != NULL)

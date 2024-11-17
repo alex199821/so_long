@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/17 22:37:53 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:19:10 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ int	main(int argc, char **argv)
 	{
 		game = initialize_game_data(argv[1]);
 		launch_game(game);
+	}
+	else
+	{
+		write(1, "Error\nMore than 1 Argument Entered\n", 35);
+		return (1);
 	}
 	return (0);
 }

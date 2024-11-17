@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 01:29:19 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/16 02:34:53 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/17 22:57:14 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,6 @@ char	*join_str(char *buffer, char *tmp)
 	str = ft_strjoin(buffer, tmp);
 	free(buffer);
 	return (str);
-}
-
-void	print_arofars(char **ar)
-{
-	int	i;
-
-	if (ar)
-	{
-		i = 0;
-		while (ar[i])
-		{
-			printf("Row [%d] = %s\n", i, ar[i]);
-			i++;
-		}
-	}
 }
 
 char	**free_arofar(char **parentarray, int arrayindex)
