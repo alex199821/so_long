@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 01:25:04 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/16 03:40:13 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/17 22:38:23 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	flood_map_background(t_game *game)
 
 void	flood_map_items(t_game *game)
 {
-	int y;
+	int	y;
 	int	x;
 
 	y = 0;

@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   valid_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macbook <macbook@student.42.fr>            +#+  +:+       +#+        */
+/*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:06:53 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/16 02:39:02 by macbook          ###   ########.fr       */
+/*   Updated: 2024/11/17 22:39:03 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	find_columns(char **map)
+{
+	int	rows;
+	int	columns;
+	int	saved_columns;
+
+	rows = 0;
+	columns = 0;
+	saved_columns = 0;
+	if (map)
+	{
+		while (map[rows])
+		{
+			while (map[rows][columns])
+			{
+				columns++;
+			}
+			if (saved_columns > 0 && saved_columns != columns)
+			{
+				return (-1);
+			}
+			saved_columns = columns;
+			columns = 0;
+			rows++;
+		}
+	}
+	return (saved_columns);
+}
 
 t_point	find_coordinates(char **map, char point)
 {
