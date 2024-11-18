@@ -6,11 +6,55 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 01:29:19 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/17 22:57:14 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 02:08:27 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	find_rows(char **map)
+{
+	int	i;
+
+	i = 0;
+	if (map)
+	{
+		while (map[i])
+		{
+			i++;
+		}
+	}
+	return (i);
+}
+
+int	find_columns(char **map)
+{
+	int	rows;
+	int	columns;
+	int	saved_columns;
+
+	rows = 0;
+	columns = 0;
+	saved_columns = 0;
+	if (map)
+	{
+		while (map[rows])
+		{
+			while (map[rows][columns])
+			{
+				columns++;
+			}
+			if (saved_columns > 0 && saved_columns != columns)
+			{
+				return (-1);
+			}
+			saved_columns = columns;
+			columns = 0;
+			rows++;
+		}
+	}
+	return (saved_columns);
+}
 
 char	*join_str(char *buffer, char *tmp)
 {

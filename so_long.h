@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 20:44:36 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/17 22:39:16 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 02:10:04 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ typedef struct s_game
 // main.c
 char			**free_arofar(char **parentarray, int arrayindex);
 // valid_path.c
-int				find_columns(char **map);
 int				check_valid_path(char **map);
 t_point			find_coordinates(char **map, char point);
 // validate.c
 int				validate_map(char **map);
-int				find_rows(char **map);
 // map.c
 char			**initialize_map(char *argv);
 char			**create_map(char *argv);
@@ -62,10 +60,14 @@ void			add_assets(t_game *game);
 void			flood_map_background(t_game *game);
 void			flood_map_items(t_game *game);
 // map_utils.c
+int				find_columns(char **map);
+int				find_rows(char **map);
 char			*join_str(char *buffer, char *tmp);
-void			print_arofars(char **ar);
 char			**free_arofar(char **parentarray, int arrayindex);
 int				check_for_double_nl(char *string);
+// map_utils_2.c
+int				count_collectibles(char **map);
+int				is_valid_character(char c);
 // movement.c
 int				check_wall(t_game *game, int x, int y);
 int				check_exit_possible(t_game *game, int x, int y);

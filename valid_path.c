@@ -6,40 +6,11 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:06:53 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/17 22:39:03 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 02:09:25 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	find_columns(char **map)
-{
-	int	rows;
-	int	columns;
-	int	saved_columns;
-
-	rows = 0;
-	columns = 0;
-	saved_columns = 0;
-	if (map)
-	{
-		while (map[rows])
-		{
-			while (map[rows][columns])
-			{
-				columns++;
-			}
-			if (saved_columns > 0 && saved_columns != columns)
-			{
-				return (-1);
-			}
-			saved_columns = columns;
-			columns = 0;
-			rows++;
-		}
-	}
-	return (saved_columns);
-}
 
 t_point	find_coordinates(char **map, char point)
 {
@@ -87,6 +58,31 @@ char	**copy_map(char **map, int rows)
 	return (map_copy);
 }
 
+int	check_collectibles_path(char **map, int rows, int cols, t_point cur)
+{
+	int	collectibles_found;
+	int	exits_found;
+
+	collectibles_found = 0;
+	if (cur.y < 0 || cur.y >= rows || cur.x < 0 || cur.x >= cols)
+		return (0);
+	if (map[cur.y][cur.x] == '1' || map[cur.y][cur.x] == 'V')
+		return (0);
+	exits_found = 0;
+	if (map[cur.y][cur.x] == 'C')
+		collectibles_found = 1;
+	map[cur.y][cur.x] = 'V';
+	collectibles_found += check_collectibles_path(map, rows, cols,
+			(t_point){cur.x - 1, cur.y});
+	collectibles_found += check_collectibles_path(map, rows, cols,
+			(t_point){cur.x + 1, cur.y});
+	collectibles_found += check_collectibles_path(map, rows, cols,
+			(t_point){cur.x, cur.y - 1});
+	collectibles_found += check_collectibles_path(map, rows, cols,
+			(t_point){cur.x, cur.y + 1});
+	return (collectibles_found);
+}
+
 int	check_path(char **map, int rows, int cols, t_point cur)
 {
 	if (cur.y < 0 || cur.y >= rows || cur.x < 0 || cur.x >= cols)
@@ -116,9 +112,14 @@ int	check_valid_path(char **map)
 
 	rows = find_rows(map);
 	columns = find_columns(map);
-	map_copy = copy_map(map, rows);
 	player_coords = find_coordinates(map, 'P');
+	map_copy = copy_map(map, rows);
 	exit_found = check_path(map_copy, rows, columns, player_coords);
+	free_arofar(map_copy, rows);
+	map_copy = copy_map(map, rows);
+	if (count_collectibles(map) != check_collectibles_path(map_copy, rows,
+			columns, player_coords))
+		exit_found = 0;
 	free_arofar(map_copy, rows);
 	return (exit_found);
 }

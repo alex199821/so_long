@@ -6,7 +6,7 @@
 #    By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:31:36 by auplisas          #+#    #+#              #
-#    Updated: 2024/11/15 17:07:50 by auplisas         ###   ########.fr        #
+#    Updated: 2024/11/18 02:10:51 by auplisas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,14 @@ USER = $(shell whoami)
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 MAKE_LIB = ar -rcs
 
-SRCS = $(wildcard *.c)
+SRCS = 	main.c \
+		map_utils.c \
+		map_utils_2.c \
+		map.c \
+		movement.c \
+		valid_path.c \
+		validate.c \
+				
 OBJS = $(SRCS:.c=.o)
 
 all: MLX42 $(NAME)
@@ -41,6 +48,7 @@ clean:
 	rm -rf MLX42
 	cd lib && make clean
 	rm -f $(OBJS)
+	rm -f lib/lib.a
 
 fclean: clean
 	rm -f $(NAME)

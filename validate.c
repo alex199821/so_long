@@ -6,26 +6,11 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:03:56 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/17 22:38:58 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 02:09:37 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	find_rows(char **map)
-{
-	int	i;
-
-	i = 0;
-	if (map)
-	{
-		while (map[i])
-		{
-			i++;
-		}
-	}
-	return (i);
-}
 
 int	surrounded_walls(char **map, int cols, int rows)
 {
@@ -103,6 +88,27 @@ int	check_player_and_exit(char **map, char c)
 		return (0);
 }
 
+int	check_for_invalid_chars(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (!is_valid_character(map[i][j]))
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	validate_map(char **map)
 {
 	if (surrounded_walls(map, find_columns(map), find_rows(map)) < 1)
@@ -120,5 +126,8 @@ int	validate_map(char **map)
 	if (check_player_and_exit(map, 'E') || check_player_and_exit(map, 'P'))
 		return (write(1, "Error\n", 6), write(1,
 				"Map Contains Duplicate Characters\n", 34), 0);
+	if (check_for_invalid_chars(map) > 0)
+		return (write(1, "Error\n", 6), write(1, "Map Contains Invalid Chars\n",
+				27), 0);
 	return (1);
 }
