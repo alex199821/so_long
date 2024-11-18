@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 00:06:53 by macbook           #+#    #+#             */
-/*   Updated: 2024/11/18 02:09:25 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 03:49:53 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,12 @@ char	**copy_map(char **map, int rows)
 int	check_collectibles_path(char **map, int rows, int cols, t_point cur)
 {
 	int	collectibles_found;
-	int	exits_found;
 
 	collectibles_found = 0;
 	if (cur.y < 0 || cur.y >= rows || cur.x < 0 || cur.x >= cols)
 		return (0);
 	if (map[cur.y][cur.x] == '1' || map[cur.y][cur.x] == 'V')
 		return (0);
-	exits_found = 0;
 	if (map[cur.y][cur.x] == 'C')
 		collectibles_found = 1;
 	map[cur.y][cur.x] = 'V';
