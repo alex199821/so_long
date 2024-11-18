@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/18 02:38:08 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 04:11:27 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	launch_game(t_game *game)
 // {
 // 	system("leaks so_long");
 // }
+
 // atexit(leaks);
 
 int	main(int argc, char **argv)
