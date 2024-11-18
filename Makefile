@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 18:31:36 by auplisas          #+#    #+#              #
-#    Updated: 2024/11/18 02:37:29 by auplisas         ###   ########.fr        #
+#    Updated: 2024/11/18 04:15:47 by auplisas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,10 +48,10 @@ clean:
 	rm -rf MLX42
 	cd lib && make clean
 	rm -f $(OBJS)
-	rm -f lib/lib.a
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f lib/lib.a
 
 re: fclean all
 
