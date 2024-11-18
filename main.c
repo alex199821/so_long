@@ -6,7 +6,7 @@
 /*   By: auplisas <auplisas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:18:57 by auplisas          #+#    #+#             */
-/*   Updated: 2024/11/18 02:17:40 by auplisas         ###   ########.fr       */
+/*   Updated: 2024/11/18 02:38:08 by auplisas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_game	*initialize_game_data(char *argv)
 	game->move_count = 0;
 	game->player_coords = find_coordinates(game->map, 'P');
 	game->mlx = mlx_init(PXL * game->columns, PXL * game->rows,
-			"Trip to Magrathea", false);
+			"Trip to Magrathea", true);
 	if (!game->mlx)
 	{
 		free_arofar(game->map, game->rows);
